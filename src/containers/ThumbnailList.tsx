@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useRef, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchPhotos, setActiveIndex } from '../redux/action'
+import { setActiveIndex, FETCH_PHOTOS_REQUEST } from '../redux/action'
 import { GalleryState } from '../redux/types';
 import { Thumbnail } from '../components/Thumbnail';
 
@@ -11,7 +11,7 @@ export const ThumbnailList: FunctionComponent = () => {
   const { listOfPhotos, activeIndex } = useSelector((state: GalleryState) => state);
 
   useEffect(() => {
-    dispatch(fetchPhotos());
+    dispatch({ type: FETCH_PHOTOS_REQUEST, payload: { limit: 5 } });
   }, [dispatch]);
 
   const ref = useRef<HTMLDivElement>(null);
