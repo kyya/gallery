@@ -1,6 +1,6 @@
 import React from 'react';
-import Gallery from './containers/Gallery';
-import ThumbnailList from './containers/ThumbnailList';
+import { Gallery } from './containers/Gallery';
+import { ThumbnailList } from './containers/ThumbnailList';
 import './App.css';
 
 function App() {

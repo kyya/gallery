@@ -1,15 +1,16 @@
-import React, { useEffect } from 'react';
-import { setActiveIndex } from '../redux/actionCreator';
+import React, { FunctionComponent, useEffect, KeyboardEvent } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import Arrow from '../components/Arrow';
+import { setActiveIndex } from '../redux/action';
+import { GalleryState } from '../redux/types';
+import { Arrow } from '../components/Arrow';
 
-export default function Gallery() {
-  const activeIndex = useSelector(state => state.activeIndex);
-  const lengthOfPhotos = useSelector(state => state.photos.length);
-  const display = useSelector(state => state.photos[state.activeIndex] || null);
+export const Gallery: FunctionComponent = () => {
   const dispatch = useDispatch();
+  const { activeIndex, listOfPhotos } = useSelector((state: GalleryState) => state);
+  const lengthOfPhotos = listOfPhotos.length;
+  const photoToDisplay = listOfPhotos[activeIndex] || null;
 
-  function handleKeyDown(ev) {
+  function handleKeyDown(ev: KeyboardEvent) {
     if (ev.key === "ArrowRight") {
       nextPhoto();
     } else if (ev.key === "ArrowLeft") {
@@ -18,8 +19,8 @@ export default function Gallery() {
   }
 
   useEffect(() => {
-    document.addEventListener('keydown', handleKeyDown);
-    return () => document.removeEventListener('keydown', handleKeyDown);
+    document.addEventListener('keydown', handleKeyDown as any);
+    return () => document.removeEventListener('keydown', handleKeyDown as any);
   })
 
   function nextPhoto() {
@@ -32,17 +33,17 @@ export default function Gallery() {
     dispatch(setActiveIndex(newIndex));
   }
 
-  if (display === null) {
-    return 'Loading...'
+  if (!photoToDisplay) {
+    return <div>Loading...</div>;
   }
 
   return (
     <div className="gallery">
       <button className="gallery-button" onClick={prevPhoto}><Arrow /></button>
-      <div className="gallery-main" style={{ backgroundImage: `url(${display.urls.regular})`}}>
+      <div className="gallery-main" style={{ backgroundImage: `url(${photoToDisplay.urls.regular})`}}>
         <div className="gallery-meta">
-          <h1>{display.description || 'Title'}</h1>
-          <p>{display.alt_description || 'Description'}</p>
+          <h1>{photoToDisplay.description || 'Title'}</h1>
+          <p>{photoToDisplay.alt_description || 'Description'}</p>
         </div>
       </div>
       <button className="gallery-button" onClick={nextPhoto}><Arrow right /></button>
