@@ -1,12 +1,15 @@
-import { createStore, applyMiddleware } from 'redux';
+import { createStore, applyMiddleware, combineReducers } from 'redux';
 import createSagaMiddleware from 'redux-saga';
-import rootReducer from './reducer';
+import rootReducer, { photosReducer } from './reducer';
 import Saga from './saga';
 
 const sagaMiddleware = createSagaMiddleware();
 
 const store = createStore(
-  rootReducer,
+  combineReducers({
+    root: rootReducer,
+    photos: photosReducer,
+  }),
   applyMiddleware(sagaMiddleware),
 );
 

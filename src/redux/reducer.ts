@@ -1,17 +1,20 @@
-import { ACTIVATE_INDEX, FETCH_PHOTOS_SUCCESS } from './action';
-import { GalleryState } from './types';
+import { requestsReducer } from 'redux-saga-requests';
+import { ACTIVATE_INDEX, FETCH_PHOTOS } from './action';
 
-const initialState: GalleryState = {
-  activeIndex: 0,
-  listOfPhotos: [],
+interface ActiveIndexState {
+  activeIndex: number;
 }
+
+const initialState: ActiveIndexState = {
+  activeIndex: 0,
+};
+
+export const photosReducer = requestsReducer({ actionType: FETCH_PHOTOS });
 
 export default function root(state = initialState, action: any) {
   switch (action.type) {
     case ACTIVATE_INDEX:
       return { ...state, activeIndex: action.payload };
-    case FETCH_PHOTOS_SUCCESS:
-      return { ...state, listOfPhotos: action.payload };
     default:
       return state;
   }

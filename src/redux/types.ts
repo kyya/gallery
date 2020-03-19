@@ -1,18 +1,23 @@
 export interface Photo {
   urls: {
-    regular: string
-    thumb: string
-  }
-  description: string
-  alt_description: string
+    regular: string;
+    thumb: string;
+  };
+  description: string;
+  alt_description: string;
 }
 
 export interface GalleryState {
-  activeIndex: number
-  listOfPhotos: Photo[]
+  root: {
+    activeIndex: number;
+  };
+  photos: {
+    data: Photo[];
+    pending: boolean;
+  };
 }
 
 export interface ActivateIndexAction {
-  type: string
-  payload: number
+  type: string;
+  payload: number;
 }

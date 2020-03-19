@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useRef, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { setActiveIndex, FETCH_PHOTOS_REQUEST } from '../redux/action'
+import { setActiveIndex, requestPhotos } from '../redux/action'
 import { GalleryState } from '../redux/types';
 import { Thumbnail } from '../components/Thumbnail';
 
@@ -8,10 +8,11 @@ const SCROLL_DURATION = 7;
 
 export const ThumbnailList: FunctionComponent = () => {
   const dispatch = useDispatch();
-  const { listOfPhotos, activeIndex } = useSelector((state: GalleryState) => state);
+  const { data: photos, pending } = useSelector((state: GalleryState) => state.photos);
+  const activeIndex = useSelector((state: GalleryState) => state.root.activeIndex);
 
   useEffect(() => {
-    dispatch({ type: FETCH_PHOTOS_REQUEST, payload: { limit: 5 } });
+    dispatch(requestPhotos());
   }, [dispatch]);
 
   const ref = useRef<HTMLDivElement>(null);
@@ -22,14 +23,14 @@ export const ThumbnailList: FunctionComponent = () => {
     }
   }
 
-  if (listOfPhotos.length === 0) {
+  if (pending) {
     return <div>Nothing...</div>;
   }
 
   return (
     <div className="thumbnails" ref={ref} onWheel={handleWheel}>
       <div className="thumbnails-container">
-        {listOfPhotos.map(
+        {photos?.map(
           (photo, index) => (
             <Thumbnail key={index}
               isActive={index === activeIndex}
