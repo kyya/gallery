@@ -52,8 +52,8 @@ export const Gallery: FunctionComponent = () => {
         style={{ backgroundImage: `url(${photoToDisplay?.urls.regular})` }}
       >
         <div className="gallery-meta">
-          <h1>{photoToDisplay?.description || 'Title'}</h1>
-          <p>{photoToDisplay?.alt_description || 'Description'}</p>
+          <h1 style={styles.short} title={photoToDisplay?.description}>{photoToDisplay?.description || 'Title'}</h1>
+          <p style={styles.short}>{photoToDisplay?.alt_description || 'Description'}</p>
         </div>
       </div>
       <button className="gallery-button" onClick={nextPhoto}>
@@ -61,4 +61,12 @@ export const Gallery: FunctionComponent = () => {
       </button>
     </div>
   );
+};
+
+const styles: { [x: string]: React.CSSProperties } = {
+  short: {
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+  },
 };
