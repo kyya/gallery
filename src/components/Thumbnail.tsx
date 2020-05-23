@@ -2,13 +2,13 @@ import React, { FunctionComponent } from 'react';
 
 interface ThumbnailProps {
   src: string;
-  isActive: boolean;
+  active: boolean;
   onClick: any;
 }
 
-export const Thumbnail: FunctionComponent<ThumbnailProps> = ({ src, isActive, onClick }) => {
+export const Thumbnail: FunctionComponent<ThumbnailProps> = ({ src, active, onClick }) => {
   return (
-    <div onClick={onClick} className={`thumbnail ${isActive ? 'active' : ''}`}>
+    <div onClick={onClick} className={`thumbnail ${active ? 'active' : ''}`}>
       <div style={{ backgroundImage: `url(${src})` }}></div>
     </div>
   );

@@ -1,5 +1,5 @@
 import { requestsReducer } from 'redux-saga-requests';
-import { ACTIVATE_INDEX, FETCH_PHOTOS, GET_USER_LIKED_PHOTOS } from './action';
+import { ACTIVATE_INDEX, GET_COLLECTION_PHOTOS } from './action';
 
 interface ActiveIndexState {
   activeIndex: number;
@@ -9,7 +9,7 @@ const initialState: ActiveIndexState = {
   activeIndex: 0,
 };
 
-export const photosReducer = requestsReducer({ actionType: GET_USER_LIKED_PHOTOS });
+export const photosReducer = requestsReducer({ actionType: GET_COLLECTION_PHOTOS });
 
 export default function root(state = initialState, action: any) {
   switch (action.type) {

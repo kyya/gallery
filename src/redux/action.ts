@@ -7,6 +7,7 @@ export const ACTIVATE_INDEX = 'ACTIVATE_INDEX';
 export const FETCH_PHOTOS = 'FETCH_PHOTOS';
 
 export const GET_USER_LIKED_PHOTOS = 'GET_USER_LIKED_PHOTOS';
+export const GET_COLLECTION_PHOTOS = 'GET_COLLECTION_PHOTOS';
 
 export function setActiveIndex(index = 0): ActivateIndexAction {
   return { type: ACTIVATE_INDEX, payload: index };
@@ -24,6 +25,14 @@ export const getUserLikedPhotos = (username: string) => ({
   type: GET_USER_LIKED_PHOTOS,
   request: {
     headers,
-    url: `/users/${username}/likes?per_page=100`
-  }
-})
+    url: `/users/${username}/likes?per_page=100`,
+  },
+});
+
+export const getCollectionsPhotos = (id: string) => ({
+  type: GET_COLLECTION_PHOTOS,
+  request: {
+    headers,
+    url: `/collections/${id}/photos?per_page=1000`,
+  },
+});
