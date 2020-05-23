@@ -5,8 +5,9 @@ const headers = { Authorization: `Client-ID ${API_KEY}` };
 
 // console.log(`Ratelimit-Remaining: ${res.headers.get('X-Ratelimit-Remaining')}`);
 export function getRandomPhotos(count = 20) {
-  return fetch(`${baseURL}/photos/random?collections=4690903&count=${count}`, { headers })
-    .then((res) => res.json());
+  return fetch(`${baseURL}/photos/random?collections=4690903&count=${count}`, {
+    headers,
+  }).then((res) => res.json());
 }
 
 export function getPopularPhotos() {

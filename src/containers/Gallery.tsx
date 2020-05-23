@@ -23,7 +23,7 @@ export const Gallery: FunctionComponent = () => {
   }, [sizeOfPhotos, dispatch, activeIndex]);
 
   const handleKeyDown = useCallback(
-    event => {
+    (event) => {
       if (event.key === 'ArrowLeft') {
         prevPhoto();
       } else if (event.key === 'ArrowRight') {

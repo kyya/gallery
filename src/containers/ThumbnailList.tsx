@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useRef, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { setActiveIndex, requestPhotos } from '../redux/action'
+import { setActiveIndex, requestPhotos } from '../redux/action';
 import { GalleryState } from '../redux/types';
 import { Thumbnail } from '../components/Thumbnail';
 
@@ -30,15 +30,15 @@ export const ThumbnailList: FunctionComponent = () => {
   return (
     <div className="thumbnails" ref={ref} onWheel={handleWheel}>
       <div className="thumbnails-container">
-        {photos?.map(
-          (photo, index) => (
-            <Thumbnail key={index}
-              isActive={index === activeIndex}
-              src={photo.urls.thumb}
-              onClick={() => dispatch(setActiveIndex(index))}
-            />)
-        )}
+        {photos?.map((photo, index) => (
+          <Thumbnail
+            key={index}
+            isActive={index === activeIndex}
+            src={photo.urls.thumb}
+            onClick={() => dispatch(setActiveIndex(index))}
+          />
+        ))}
       </div>
     </div>
-  )
-}
+  );
+};
