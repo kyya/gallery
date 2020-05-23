@@ -27,7 +27,7 @@ export const ThumbnailList: FunctionComponent = () => {
             key={index}
             active={index === activeIndex}
             src={photo.urls.thumb}
-            onClick={() => null}
+            onClick={() => window.open(photo?.links?.html)}
           />
         ))}
       </div>
