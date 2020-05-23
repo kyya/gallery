@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useRef, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { setActiveIndex, requestPhotos } from '../redux/action';
+import { setActiveIndex, getUserLikedPhotos } from '../redux/action';
 import { GalleryState } from '../redux/types';
 import { Thumbnail } from '../components/Thumbnail';
 
@@ -12,7 +12,7 @@ export const ThumbnailList: FunctionComponent = () => {
   const activeIndex = useSelector((state: GalleryState) => state.root.activeIndex);
 
   useEffect(() => {
-    dispatch(requestPhotos());
+    dispatch(getUserLikedPhotos('kyya'));
   }, [dispatch]);
 
   const ref = useRef<HTMLDivElement>(null);
