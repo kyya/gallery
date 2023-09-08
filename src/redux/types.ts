@@ -10,17 +10,3 @@ export interface Photo {
   alt_description: string;
 }
 
-export interface GalleryState {
-  root: {
-    activeIndex: number;
-  };
-  photos: {
-    data: Photo[];
-    pending: boolean;
-  };
-}
-
-export interface ActivateIndexAction {
-  type: string;
-  payload: number;
-}

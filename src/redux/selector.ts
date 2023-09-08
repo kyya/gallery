@@ -1,4 +1,4 @@
-import { GalleryState } from './types';
+import { RootState } from './store';
 
-export const getPhotos = (state: GalleryState) => state.photos;
-export const getActivePhotoIndex = (state: GalleryState) => state.root.activeIndex;
+export const getPhotos = (state: RootState) => state.gallery.photos;
+export const getActivePhotoIndex = (state: RootState) => state.gallery.activeIndex;

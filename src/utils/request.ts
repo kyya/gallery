@@ -1,4 +1,4 @@
-const API_KEY = process.env.REACT_APP_UNSPLASH_API_KEY;
+const API_KEY = import.meta.env.VITE_UNSPLASH_API_KEY;
 const baseURL = 'https://api.unsplash.com';
 
 const headers = { Authorization: `Client-ID ${API_KEY}` };

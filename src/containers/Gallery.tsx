@@ -1,29 +1,31 @@
-import React, { FunctionComponent, useEffect, useCallback } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { setActiveIndex } from '../redux/action';
-import { GalleryState } from '../redux/types';
+import { FC, useCallback, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Arrow } from '../components/Arrow';
+import gallerySlice, { GalleryState } from '../redux/gallery';
 
-export const Gallery: FunctionComponent = () => {
+type GalleryProps = {
+  pending?: boolean;
+}
+export const Gallery: FC<GalleryProps> = ({ pending = false }) => {
   const dispatch = useDispatch();
-  const { data: photos, pending } = useSelector((state: GalleryState) => state.photos);
+  const photos = useSelector((state: GalleryState) => state.photos);
 
-  const activeIndex = useSelector((state: GalleryState) => state.root.activeIndex);
+  const activeIndex = useSelector((state: GalleryState) => state.activeIndex);
   const photoToDisplay = photos?.[activeIndex];
   const sizeOfPhotos = photos?.length;
 
   const prevPhoto = useCallback(() => {
     const newIndex = activeIndex - 1 < 0 ? sizeOfPhotos - 1 : (activeIndex - 1) % sizeOfPhotos;
-    dispatch(setActiveIndex(newIndex));
+    dispatch(gallerySlice.actions.setActiveIndex(newIndex));
   }, [sizeOfPhotos, dispatch, activeIndex]);
 
   const nextPhoto = useCallback(() => {
     const newIndex = activeIndex + 1 < 0 ? sizeOfPhotos - 1 : (activeIndex + 1) % sizeOfPhotos;
-    dispatch(setActiveIndex(newIndex));
+    dispatch(gallerySlice.actions.setActiveIndex(newIndex));
   }, [sizeOfPhotos, dispatch, activeIndex]);
 
   const handleKeyDown = useCallback(
-    (event) => {
+    (event: any) => {
       if (event.key === 'ArrowLeft') {
         prevPhoto();
       } else if (event.key === 'ArrowRight') {
@@ -36,7 +38,7 @@ export const Gallery: FunctionComponent = () => {
   useEffect(() => {
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
-  }, []);
+  }, [handleKeyDown]);
 
   if (pending) {
     return <div>Loading...</div>;

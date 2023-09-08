@@ -1,18 +1,23 @@
-import React, { FunctionComponent, useRef, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { FC, useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { setActiveIndex, getCollectionsPhotos } from '../redux/action';
-import { getPhotos, getActivePhotoIndex } from '../redux/selector';
-import { Thumbnail } from '../components/Thumbnail';
 import { ListPlaceholder } from '../components/ListPlaceholder';
+import { Thumbnail } from '../components/Thumbnail';
+import unsplashClient from '../misc/unsplash.client';
+import gallerySlice from '../redux/gallery';
+import { getActivePhotoIndex, getPhotos } from '../redux/selector';
 
-export const ThumbnailList: FunctionComponent = () => {
+export const ThumbnailList: FC = () => {
+  const [pending, setPending] = useState(false);
   const dispatch = useDispatch();
-  const { data: photos, pending } = useSelector(getPhotos);
+  const photos = useSelector(getPhotos);
   const activeIndex = useSelector(getActivePhotoIndex);
 
   useEffect(() => {
-    dispatch(getCollectionsPhotos('4690903'));
+    setPending(true);
+    unsplashClient.getCollectionPhotos('4690903').then((photos) => {
+      dispatch(gallerySlice.actions.setCollectionsPhotos(photos));
+    }).finally(() => setPending(false));
   }, [dispatch]);
 
   if (pending) {

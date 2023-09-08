@@ -1,7 +1,11 @@
-import React, { FunctionComponent } from 'react';
 import { map, range } from 'lodash';
+import { FC } from 'react';
 
-export const ListPlaceholder: FunctionComponent<any> = ({ count = 32 }) => {
+type Props = {
+  count?: number;
+}
+
+export const ListPlaceholder: FC<Props> = ({ count = 32 }) => {
   return (
     <div className="thumbnails">
       <div className="thumbnails-container">
