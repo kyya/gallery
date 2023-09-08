@@ -1,0 +1,73 @@
+name: Build and release Gallery UI
+
+concurrency:
+  group: ${{ github.ref }}
+  cancel-in-progress: true
+
+on:
+  workflow_dispatch:
+    inputs:
+      use_cache:
+        description: 'Use PNPM Cache'
+        type: boolean
+        default: true
+  push:
+    branches:
+      - main
+env:
+  VITE_UNSPLASH_API_KEY: ${{ secrets.VITE_UNSPLASH_API_KEY }}
+
+jobs:
+  build:
+    runs-on: [ubuntu-latest]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - uses: pnpm/action-setup@v2
+        name: Install pnpm
+        with:
+          version: 8
+          run_install: false
+
+      - name: Get pnpm store directory
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+
+      - uses: actions/cache@v3
+        name: Setup pnpm cache
+        if: github.event.inputs.use_cache
+        with:
+          path: ${{ env.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Get package version
+        run: |
+          echo 'PACKAGE_JSON<<EOF' >> $GITHUB_ENV
+          cat ./package.json >> $GITHUB_ENV
+          echo 'EOF' >> $GITHUB_ENV
+      
+      - name: Build UI
+        run : pnpm build
+
+      - name: Create build artifact
+        run: cd dist/ && zip -q -r gallery-ui_v${{ fromJson(env.PACKAGE_JSON).version }}.zip *
+
+      - name: Upload build artifacts
+        uses: svenstaro/upload-release-action@v2
+        with:
+          tag: v${{ fromJson(env.PACKAGE_JSON).version }}
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: dist/gallery-ui_v${{ fromJson(env.PACKAGE_JSON).version }}.zip
+          overwrite: true
