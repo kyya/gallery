@@ -112,14 +112,13 @@ body {
 }
 .thumbnails-container {
   flex: 1;
-  flex-wrap: wrap;
   display: flex;
   flex-direction: row;
-  /* justify-content: center; */
-  /* padding-right: 12px; */
-  /* height: 200px; */
-  /* border: 1px solid black; */
+  gap: 18px;
+  padding: 24px 12px;
+  overflow-x: scroll;
 }
+
 .thumbnail {
   width: 100px;
   /* flex: 1; */
@@ -133,12 +132,9 @@ body {
   padding: 5px;
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
   transform: translateY(0);
-  transition: box-shadow 0.2s ease, transform 0.2s ease;
-}
-
-.thumbnail {
-  margin-left: 18px;
-  margin-top: 18px;
+  transition:
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
 }
 
 /* .thumbnail.active, */
